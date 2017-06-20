@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import jieba
 import os
+import gensim.models.word2vec as w2c
 
 #读取中文文件并改变编码
 def readfile(srcfilename,desfilename):
@@ -15,3 +16,9 @@ def readfile(srcfilename,desfilename):
         line = f.readline()
     f.close()
     w.close()
+
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
