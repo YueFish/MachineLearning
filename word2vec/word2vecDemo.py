@@ -4,6 +4,7 @@ import jieba
 import os
 import gensim.models.word2vec as w2c
 import logging
+from createWordText import *
 from logging.handlers import TimedRotatingFileHandler
 logFilePath = 'word2vecDemo.log'
 
