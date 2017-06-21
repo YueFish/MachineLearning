@@ -1,8 +1,21 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 import jieba
 import os
 import gensim.models.word2vec as w2c
+import logging
+from logging.handlers import TimedRotatingFileHandler
+logFilePath = 'word2vecDemo.log'
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = TimedRotatingFileHandler(logFilePath,
+                                   when = 'd',
+                                   interval = 1,
+                                   backupCount=7)
+formatter = logging.Formatter('[%(asctime)s-%(levelname)s - %(message)s]')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 #读取中文文件并改变编码
 def readfile(srcfilename,desfilename):
