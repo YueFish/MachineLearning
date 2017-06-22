@@ -2,9 +2,10 @@
 #-*- coding: utf-8 -*-
 import jieba
 import os
-import gensim.models.word2vec as w2c
+import string
+import gensim.models.word2vec as w2v
 import logging
-from createWordText import *
+# from createWordText import *
 from logging.handlers import TimedRotatingFileHandler
 logFilePath = 'word2vecDemo.log'
 
@@ -31,8 +32,41 @@ def readfile(srcfilename,desfilename):
     f.close()
     w.close()
 
-def main():
-    pass
 
-if __name__ == "__main__":
-    main()
+#中文分词
+def spilitWord():
+    f = open('item_text.txt', 'r')
+    w = open('item_cut_text.txt', 'w')
+    line = f.readline()
+
+    while line:
+        print line
+        newline = jieba.cut(line, cut_all=False)
+        newline = ' '.join(newline).encode('utf-8')
+        str_out = newline.translate(None, string.punctuation)
+        str_out = str_out.replace('？','').replace('，','').replace("《",'').replace("》",'')\
+        .replace("！", '').replace('?', '').replace("· ",'').replace("·", '').replace(".", '')\
+        .replace(" ：", "")
+        print str_out
+        w.write(str_out+'\n')
+        w.flush()
+        line = f.readline()
+    w.close()
+    f.close()
+
+def word2vecModel():
+    model_file_name = "item_model.txt"
+    #训练模型
+    sentences = w2v.LineSentence('item_cut_text.txt')
+    model = w2v.Word2Vec(sentences, size = 20, window = 5, min_count=5, workers=4)
+    model.save(model_file_name)
+    print model.similarity('吉祥'.decode('utf-8'),'天宝'.decode('utf-8'))
+    for k in model.similar_by_word('国家机密'.decode('utf-8')):
+        print k[0], k[1]
+
+model=w2v.Word2Vec.load('item_model.txt')
+y2= model.most_similar('成龙'.decode('utf-8'),topn=20)
+for k in y2:
+    print k[0], k[1]
+
+

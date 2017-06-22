@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# #!/usr/bin/env python
+# # -*- coding: utf-8 -*-
+import  string
 import pymongo
-Field = "name,director,cast,summary,tag,d_tag,country,d_type,refereredNames"
+Field = "name,director,cast,tag,d_tag,country,d_type,refereredNames"
 
 def getAllChineseField():
     '''
@@ -38,4 +39,3 @@ def saveWordText(item_list_text):
 
 item_list = getAllChineseField()
 saveWordText(item_list)
-
